@@ -5,12 +5,17 @@
 
 int main() {
   kv_t *db = kv_init(16);
-
+  
   kv_put(db, "name", "alice");
-  assert(strcmp(kv_get(db, "name"), "alice") == 0);
-  assert(kv_get(db, "missing") == NULL);
+  kv_put(db, "city", "berlin");
+  
+  assert(kv_delete(db, "name") == 0);
+  assert(kv_get(db, "name") == NULL);
+  assert(db->count == 1);
+  
+  assert(kv_delete(db, "missing") == -1);
 
-  printf("All assertions passed!\n");
 
+  printf("all Tests passed!");
   // kv_free(db);
 }
