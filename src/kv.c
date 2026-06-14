@@ -20,8 +20,8 @@ size_t hash (char *val, int capacity) {
 }
 
 
-int kv_free(kv_t *db) {
-  if(db == NULL) return -1;
+void kv_free(kv_t *db) {
+  if(db == NULL) return;
 
   
   // Free all keys and values of entries
@@ -52,9 +52,9 @@ int kv_free(kv_t *db) {
   free(db);
 
   // something bad happend cause the loop finished but there is data left
-  if(db->count != 0) return -1;
+  if(db->count != 0) return;
   
-  return 0;
+  return;
 }
 
 int kv_delete(kv_t *db, char *key) {
