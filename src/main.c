@@ -3,19 +3,20 @@
 #include <assert.h>
 
 int main() {
-  kv_t *db = kv_init(16);
+  kv_t *table = kv_init (1024);
+  printf ("%p\n", table);
+  printf("%ld\n", table->capacity) ;
 
-  assert(db != NULL);
+  kv_put(table, "hehe", "haha");
+  kv_put(table, "lala", "test");
 
-  assert(db->capacity == 16);
 
-  assert(db->count == 0);
-
-  // kv_free(db);
-
-  // kv_t *table = kv_init(3);
-  
-  // printf("%p\n", table) ;
-
-  // printf("capacity: %ld\n", table->capacity);
+  for (int i = 0; i < table->capacity; i++) {
+    if (table->entries[i].key) {
+      printf("[%d] %s: %s\n",
+      i,
+      table->entries[i].key,
+      table->entries[i].value);
+    }
+  }
 }
