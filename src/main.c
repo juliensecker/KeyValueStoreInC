@@ -9,6 +9,11 @@ int main() {
   kv_put(db, "name", "alice");
   kv_put(db, "city", "berlin");
   
+  kv_put(db, "name", "lice");
+  kv_put(db, "name", "ce");
+
+
+  
   assert(kv_delete(db, "name") == 0);
   assert(kv_get(db, "name") == NULL);
   assert(db->count == 1);

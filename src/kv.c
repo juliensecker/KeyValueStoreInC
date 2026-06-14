@@ -19,6 +19,44 @@ size_t hash (char *val, int capacity) {
   return hash % capacity;
 }
 
+
+int kv_free(kv_t *db) {
+  if(db == NULL) return -1;
+
+  
+  // Free all keys and values of entries
+  for(size_t i = 0; i < db->capacity; i++) {
+    if(db->count == 0) break;
+    
+    kv_entry_t *entry = &db->entries[i];
+
+    if(
+      entry->key != NULL &&
+      entry->key != (void*)TOMBSTONE
+    ) {
+      free(entry->key);
+      free(entry->value);
+
+      entry->key = NULL;
+      entry->value = NULL;
+
+      db->count--;
+    } 
+  }
+  
+  // Free entries
+  free(db->entries);
+
+  // Free DB itself
+  // setting db to NULL is callers DUTY else we need double pointer in function signature
+  free(db);
+
+  // something bad happend cause the loop finished but there is data left
+  if(db->count != 0) return -1;
+  
+  return 0;
+}
+
 int kv_delete(kv_t *db, char *key) {
   if( db == NULL || key == NULL) return -1;
   
