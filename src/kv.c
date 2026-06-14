@@ -49,7 +49,7 @@ int kv_put (kv_t *db, char *key, char *value) {
       free(entry->value);        
       entry->value = newVal;
 
-      return real_idx;
+      return 0;
     }
 
     // if entry->key was never set we can safely put the value here cause their would be just tombstone if the search key was farer away
@@ -66,7 +66,7 @@ int kv_put (kv_t *db, char *key, char *value) {
       entry->key = newKey;
       entry->value = newVal;
       db->count++;
-      return real_idx;
+      return 0;
     }
   }
 
@@ -86,7 +86,7 @@ int kv_put (kv_t *db, char *key, char *value) {
       firstTombstoneEntry->key = newKey;
       firstTombstoneEntry->value = newVal;
       db->count++;
-      return foundFirstTombstoneAtThisIDX;
+      return 0;
   }
 
   // the db is occupied
