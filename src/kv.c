@@ -41,9 +41,13 @@ void kv_free(kv_t *db) {
       entry->value = NULL;
 
       db->count--;
-    } 
+    }
   }
-  
+
+  // something bad happend cause the loop finished but there is data left
+  // (check BEFORE freeing db, otherwise we read freed memory)
+  if(db->count != 0) return;
+
   // Free entries
   free(db->entries);
 
@@ -51,9 +55,6 @@ void kv_free(kv_t *db) {
   // setting db to NULL is callers DUTY else we need double pointer in function signature
   free(db);
 
-  // something bad happend cause the loop finished but there is data left
-  if(db->count != 0) return;
-  
   return;
 }
 
